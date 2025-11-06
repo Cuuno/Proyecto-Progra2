@@ -30,15 +30,14 @@ def registrar_paciente(dni,nombre,apellido,nacimiento,email,cel,domicilio):
     #     print(f"Paciente {nombre} insertado en la BD (Capa DB).")
     #     return True # Éxito
 
-    # except sqlite3.IntegrityError as e:
-    #     # Esto es clave: Se activa si el DNI ya existe (por la restricción UNIQUE)
-    #     print(f"Error en BD - El DNI '{dni}' ya existe: {e}")
-    #     return False
-    # except sqlite3.Error as e:
-    #     # Atrapa cualquier otro error de SQLite
-    #     print(f"Error general de SQLite en insertar_paciente_db: {e}")
-    #     return False
-    # finally:
-    #     # PASE LO QUE PASE (éxito o error), cerrar la conexión
-    #     if conn:
-    #         conn.close()
+    except sqlite3.IntegrityError as e:
+        # Error si el DNI ya existe (por la restricción UNIQUE)
+        print(f"Error en BD - El DNI '{dni}' ya existe: {e}")
+        return False
+    except sqlite3.Error as e:
+        # Atrapa cualquier otro error de SQLite
+        print(f"Error general de SQLite en insertar_paciente_db: {e}")
+        return False
+    finally:
+        if conexion:
+            conexion.close()
