@@ -1,7 +1,8 @@
 from src.models.persona import Persona
 class Paciente(Persona):
     def __init__(self, dni, nombre, apellido, nacimiento, email, cel, domicilio):
-        super().__init__(dni,nombre,apellido)
+        super().__init__(nombre,apellido)
+        self.dni = dni
         self.nacimiento = nacimiento
         self.email = email
         self.cel = cel
