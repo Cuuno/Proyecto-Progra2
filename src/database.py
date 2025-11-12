@@ -7,7 +7,7 @@ def db_conexion():
     except sqlite3.Error as e:
         print(f"Error al conectar con la base de daatos: {e}")
         return None
-def registrar_paciente(dni,nombre,apellido,nacimiento,email,cel,domicilio):
+def registrar_paciente(dni,nombre,apellido,email,cel,domicilio,nacimiento):
     conexion=None
     try:
         conexion=db_conexion()
@@ -15,32 +15,46 @@ def registrar_paciente(dni,nombre,apellido,nacimiento,email,cel,domicilio):
             return False
         cursor=conexion.cursor()
         #codigo de cristian=
-    #     sql = """
-    #     INSERT INTO pacientes (pac_dni, pac_nombre, pac_apellido, pac_email, pac_cel, pac_domicilio)
-    #     VALUES (?, ?, ?, ?, ?, ?)
-    #     """
-        
-    #     # Ejecutamos el SQL, pasando los valores como una tupla
-    #     # Esto previene automáticamente la Inyección SQL
-    #     cursor.execute(sql, (dni, nombre, apellido, email, cel, domicilio))
-        
-    #     # ¡IMPORTANTE! Guardar los cambios
-    # #     conn.commit()
-        
-    #     print(f"Paciente {nombre} insertado en la BD (Capa DB).")
-    #     return True # Éxito
+        sql = """
+        INSERT INTO pacientes (pac_dni, pac_nombre, pac_apellido, pac_email, pac_cel, pac_domicilio, pac_fecha_nacimiento)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """
+        cursor.execute(sql, (dni, nombre, apellido, email, cel, domicilio, nacimiento))
+        conexion.commit()
 
+        print(f"Paciente {nombre} {apellido} insertado en la BD (Capa DB).")
+        return True
+    
     except sqlite3.IntegrityError as e:
-        # Error si el DNI ya existe (por la restricción UNIQUE)
-        print(f"Error en BD - El DNI '{dni}' ya existe: {e}")
+        print(f"Error en BD - El DNI '{dni}' o el email '{email}' ya existen: {e}")
+        if conexion:
+            conexion.rollback()
         return False
     except sqlite3.Error as e:
-        # Atrapa cualquier otro error de SQLite
-        print(f"Error general de SQLite en insertar_paciente_db: {e}")
-        return False
+        print(f"Error general de SQLite en registrar_paciente: {e}")
+        if conexion:
+            conexion.rollback()
     finally:
         if conexion:
-            conexion.close()
+            conexion.close()    
+        
+if __name__ == "_main_":
+    
+    print("--- Probando el registro de paciente ---")
+    exito = registrar_paciente(
+        "19", 
+        "juan", 
+        "castillo", 
+        "jcastillo@email.com", 
+        "38123993", 
+        "Av. Siempreviva 124",
+        "18/08/2005"
+    )
+    
+    if exito:
+        print("¡Paciente de prueba registrado con éxito!")
+    else:
+        print("Falló el registro del paciente de prueba (quizás ya existe).")
 
 def buscar_paciente_por_dni_db(dni):
     """
