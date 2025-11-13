@@ -7,7 +7,7 @@ def generar_grafico_promedio_dias():
     print ("REPORTES: Iniciando grafico de promedio de dias...")
     sql_query, conexion = None, None
     try:
-        sql_query, conexion=db.get_datos_grafico_promedio_dias_db()
+        sql_query, conexion=db.obtener_datos_grafico_promedio_dias_db()
         if sql_query is None or conexion is None:
             print ("ERROR: No se pudieron obtener los datos de la DB")
             return
@@ -39,12 +39,13 @@ def generar_grafico_promedio_dias():
     finally:
         if conexion:
             conexion.close()
+            
 # Opción 9: Grafico de Habitaciones
 def generar_grafico_estado_habitaciones():
     print("REPORTES: Iniciando gráfico de estado de habitaciones...")
     sql_query, conexion = None, None
     try:
-        sql_query, conexion = db.get_datos_grafico_habitaciones_db()
+        sql_query, conexion = db.obtener_datos_grafico_habitaciones_db()
 
         if sql_query is None or conexion is None:
             print ("REPORTES ERROR: No se obtuvieron los datos de la DB")
