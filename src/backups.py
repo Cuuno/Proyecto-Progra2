@@ -6,6 +6,7 @@ from src import database as db
 tablas_backup=['pacientes','especialidades','medicos','diagnosticos','habitaciones','admisiones']
 backup_dir="backup_csv"
 
+# Opción 10: Exportar Backup (CSV)
 def exportar_csv():
     print("BACKUPEANDO...")
 
@@ -39,6 +40,7 @@ def exportar_csv():
         if conexion:
             conexion.close()
 
+# Opción 11: Restaurar Backup (CSV)
 def importar_csv():
     print("RESTAURANDO...")
 

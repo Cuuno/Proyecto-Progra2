@@ -132,14 +132,13 @@ def main():
             print("Gráfico 'habitaciones.png' generado.")
 
         elif opcion == '10':
-            print("== 10. Exportar Backup ==")
-            # TÚ llamas a tu propio archivo de backups
-            backups.exportar_datos_a_csv()
+            print("== 10. Exportar Backup ==")          
+            backups.exportar_csv()
             print("Backup exportado.")
 
         elif opcion == '11':
             print("== 11. Restaurar Backup ==")
-            backups.restaurar_datos_desde_csv()
+            backups.importar_csv()
             print("Backup restaurado.")
 
         elif opcion == '0':
