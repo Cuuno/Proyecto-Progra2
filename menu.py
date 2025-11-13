@@ -122,24 +122,19 @@ def main():
         
         elif opcion == '8':
             print("== 8. Gráfico Promedio Días ==")
-            # TÚ llamas a tu propio archivo de reportes
             reportes.generar_grafico_promedio_dias()
-            print("Gráfico 'promedio_dias.png' generado.")
             
         elif opcion == '9':
             print("== 9. Gráfico Habitaciones ==")
             reportes.generar_grafico_estado_habitaciones()
-            print("Gráfico 'habitaciones.png' generado.")
 
         elif opcion == '10':
             print("== 10. Exportar Backup ==")          
             backups.exportar_csv()
-            print("Backup exportado.")
 
         elif opcion == '11':
             print("== 11. Restaurar Backup ==")
             backups.importar_csv()
-            print("Backup restaurado.")
 
         elif opcion == '0':
             print("Saliendo...")
