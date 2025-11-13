@@ -43,6 +43,91 @@ def main():
 
         elif opcion == '2':
             print("== 2. Admitir Paciente ==")
+
+            try:
+                #buscar paciente por dni
+                pac_dni=input("DNI del Paciente a admitir: ")
+                paciente=pac.buscar_por_dni(pac_dni)
+                if paciente is None:
+                    print(f"Paciente con DNI {pac_dni} no encontrado. Registre nuevamente")
+                    continue
+                print (f"Paciente encontrado: {paciente['pac_nombre']} {paciente['pac_apellido']}")
+
+                #seleccionar medico
+                print("\n--- Selecionar Medico ---")
+                lista_medicos=med.obtener_medicos()
+
+                for i, med in enumerate(lista_medicos):
+                    print (f"[{i+1}] - Dr. {med['med_nombre']} {med['med_apellido']} {med['esp_nombre']}")
+                    selec_num=int(input("Seleccione el NUMERO del médico: "))
+                    medico_elegido= lista_medicos[selec_num-1]
+                    med_id = medico_elegido['med_id']
+
+                print("\n --- Seleccionar Diagnóstico ---")
+                lista_diagnosticos = diagnostico.obtener_diagnosticos()
+                
+                for i, diag in enumerate (lista_diagnosticos):
+                    print (f"[{i+1}]-{diag['diag_nostico']}")
+                print (f"[99] - Agregar nuevo diagnostico...")
+                selec_num=int(input("Seleccione el NUMERO del diagnóstico (o 99): "))
+
+                diag_id= None
+
+                if selec_num == 99:
+                    print("\n --- Nuevo Diagnostico ---")
+                    diag_nuevo= input("Descripcion del nuevo diagnostico: ")
+
+                    if not diag_nuevo:
+                        print ("Error: La descripcion no puede estar vacia. Cancelando admision...")
+                        continue
+
+                    diag_id = diagnostico.crear_nuevo(diag_nuevo)
+
+                    print (f"Diagnostico '{diag_nuevo}' creado con ID {diag_id}")
+
+                else:
+                    diag_elegido = lista_diagnosticos[selec_num - 1]
+                    diag_id = diag_elegido['diag_id']
+                
+                #Seleccionar habitacion
+                print ("\n --- Seleccionar Habitacion Disponible ---")
+                lista_habitaciones= Habitacion.obener_disponibles()
+
+                if not lista_habitaciones:
+                    print ("Error: NO HAY HABITACIONES DISPONBILES")
+                    continue
+                
+                for i, hab in enumerate(lista_habitaciones):
+                    print (f"[{i+1}] - Habitación Nro: {hab['hab_nro']} (Piso: {hab['hab_piso']})")
+
+                    selec_num= int(input("Seleccione el Numero de habitacion"))
+                    hab_elegida=lista_habitaciones[selec_num-1]
+                    hab_id=hab_elegida['hab_id']
+
+                #fecha
+                fecha_ingreso=input("\nFecha de ingreso (YYYY-MM-DD)")
+
+                #llamada a admision
+                print("Procesando admision...")
+                exito=Admision.registrar_ingreso_por_dni(
+                    pac_dni,
+                    med_id,
+                    diag_id,
+                    hab_id,
+                    fecha_ingreso
+                )
+
+                if exito:
+                    print("Paciente admitido exitosamente")
+                else:
+                    print("No se pudo admitir, verifique datos ingresados")
+            except (ValueError, IndexError):
+                print("Error: Escribio un numero incorrecto.")
+                continue
+            except Exception as e:
+                print(f"Error inesperado en la admisión: {e}")
+                continue
+
             pac_id = input("ID del Paciente a admitir: ")
             med_id = input("ID del Médico responsable: ")
             diag_id = input("ID del Diagnóstico: ")
