@@ -23,7 +23,7 @@ def exportar_csv():
         for tabla in tablas_backup:
             print(f"Exportando tabla: {tabla}...")
             cursor.execute(f"SELECT * FROM {tabla}")
-            filas=cursor.fetchall
+            filas=cursor.fetchall()
             path_archivo= os.path.join(backup_dir, f"{tabla}.csv")
             with open (path_archivo,'w',newline='',encoding='utf-8') as f:
                 writer = csv.writer(f)
@@ -71,7 +71,7 @@ def importar_csv():
                 cursor.executemany(sql_insert, reader)
         
         conexion.commit()
-        
+
         cursor.execute("PRAGMA foreign_keys = ON")
             
         print ("RESTAURACION Completada")
