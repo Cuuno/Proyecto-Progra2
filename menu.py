@@ -3,6 +3,7 @@ from src.models.medico import Medico
 from src.models.admision import Admision
 from src.models.habitacion import Habitacion
 from src.models.especialidad import Especialidad
+from src.models.diagnostico import Diagnostico
 from src import reportes
 from src import backups
 
@@ -40,6 +41,9 @@ def main():
             
             pac = Paciente(dni, nombre, apellido, nacimiento, email, cel, domicilio)
             pac.registrar()
+            if pac.registrar:
+                print(f"Paciente {pac['pac_nombre']} registado con exito.")#probar
+
 
         elif opcion == '2':
             print("== 2. Admitir Paciente ==")
@@ -55,16 +59,17 @@ def main():
 
                 #seleccionar medico
                 print("\n--- Selecionar Medico ---")
-                lista_medicos=med.obtener_medicos()
+                lista_medicos=Medico.obtener_medicos()
 
-                for i, med in enumerate(lista_medicos):
-                    print (f"[{i+1}] - Dr. {med['med_nombre']} {med['med_apellido']} {med['esp_nombre']}")
-                    selec_num=int(input("Seleccione el NUMERO del médico: "))
-                    medico_elegido= lista_medicos[selec_num-1]
-                    med_id = medico_elegido['med_id']
+                for i, medico in enumerate(lista_medicos):
+                    print (f"[{i+1}] - Dr. {medico['med_nombre']} {medico['med_apellido']} {medico['esp_nombre']}")
+                selec_num=int(input("Seleccione el NUMERO del médico: "))
+                medico_elegido= lista_medicos[selec_num-1]
+                med_id = medico_elegido['med_id']
 
+                #seleccionar diagnostico
                 print("\n --- Seleccionar Diagnóstico ---")
-                lista_diagnosticos = diagnostico.obtener_diagnosticos()
+                lista_diagnosticos = Diagnostico.obtener_diagnosticos()
                 
                 for i, diag in enumerate (lista_diagnosticos):
                     print (f"[{i+1}]-{diag['diag_nostico']}")
@@ -73,6 +78,7 @@ def main():
 
                 diag_id= None
 
+                #agregar diagnostico
                 if selec_num == 99:
                     print("\n --- Nuevo Diagnostico ---")
                     diag_nuevo= input("Descripcion del nuevo diagnostico: ")
@@ -81,9 +87,10 @@ def main():
                         print ("Error: La descripcion no puede estar vacia. Cancelando admision...")
                         continue
 
-                    diag_id = diagnostico.crear_nuevo(diag_nuevo)
+                    diag_id = Diagnostico.crear_diagnostico(diag_nuevo)
 
-                    print (f"Diagnostico '{diag_nuevo}' creado con ID {diag_id}")
+                    if diag_id is not None:
+                        print (f"Diagnostico '{diag_nuevo}' creado con ID {diag_id}")
 
                 else:
                     diag_elegido = lista_diagnosticos[selec_num - 1]
@@ -91,7 +98,7 @@ def main():
                 
                 #Seleccionar habitacion
                 print ("\n --- Seleccionar Habitacion Disponible ---")
-                lista_habitaciones= Habitacion.obener_disponibles()
+                lista_habitaciones= Habitacion.obtener_disponibles()
 
                 if not lista_habitaciones:
                     print ("Error: NO HAY HABITACIONES DISPONBILES")
@@ -100,9 +107,9 @@ def main():
                 for i, hab in enumerate(lista_habitaciones):
                     print (f"[{i+1}] - Habitación Nro: {hab['hab_nro']} (Piso: {hab['hab_piso']})")
 
-                    selec_num= int(input("Seleccione el Numero de habitacion"))
-                    hab_elegida=lista_habitaciones[selec_num-1]
-                    hab_id=hab_elegida['hab_id']
+                selec_num= int(input("Seleccione el Numero de habitacion"))
+                hab_elegida=lista_habitaciones[selec_num-1]
+                hab_id=hab_elegida['hab_id']
 
                 #fecha
                 fecha_ingreso=input("\nFecha de ingreso (YYYY-MM-DD)")
@@ -121,29 +128,20 @@ def main():
                     print("Paciente admitido exitosamente")
                 else:
                     print("No se pudo admitir, verifique datos ingresados")
+
             except (ValueError, IndexError):
                 print("Error: Escribio un numero incorrecto.")
                 continue
+
             except Exception as e:
                 print(f"Error inesperado en la admisión: {e}")
                 continue
 
-            pac_id = input("ID del Paciente a admitir: ")
-            med_id = input("ID del Médico responsable: ")
-            diag_id = input("ID del Diagnóstico: ")
-            hab_id = input("ID de la Habitación asignada: ")
-            fecha_ingreso = input("Fecha de Ingreso (YYYY-MM-DD): ")
-
-            adm = Admision(pac_id, med_id, diag_id, hab_id, fecha_ingreso)
-            adm.registrar_ingreso()
-            print("¡Paciente admitido!")
-
+                
         elif opcion == '3':
             print("== 3. Habitaciones Disponibles ==")
-            # TÚ llamas al Experto (Central)
-            lista_habitaciones = Habitacion.get_disponibles()
+            lista_habitaciones = Habitacion.habitaciones_disponibles()
             
-            # TÚ muestras los resultados
             if lista_habitaciones:
                 for hab in lista_habitaciones:
                     # (Central te devolverá un objeto o diccionario)

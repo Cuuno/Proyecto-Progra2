@@ -11,7 +11,7 @@ class Paciente(Persona):
     def registrar(self):
         pass
     @staticmethod
-    def buscar_por_dni(dni):
+    def buscar_por_dni(pac_dni):
         pass
     def get_rol(self):
         return "Paciente"
