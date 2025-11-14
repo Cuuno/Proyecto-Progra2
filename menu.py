@@ -25,7 +25,7 @@ def mostrar_menu():
     print("0- Salir")
 
 def main():
- while True:
+    while True:
         mostrar_menu()
         opcion = input("Seleccione una opción: ")
 
@@ -40,9 +40,11 @@ def main():
             domicilio = input("Domicilio: ")
             
             pac = Paciente(dni, nombre, apellido, nacimiento, email, cel, domicilio)
-            pac.registrar()
-            if pac.registrar:
-                print(f"Paciente {pac['pac_nombre']} registado con exito.")#probar
+            exito = pac.registrar()
+            if exito:
+                print(f"Paciente {pac.nombre} registado con exito.")
+            else:
+                print (f"Error: No se pudo registrar al paciene (DNI duplicado o error en BD)")
 
 
         elif opcion == '2':
@@ -51,7 +53,7 @@ def main():
             try:
                 #buscar paciente por dni
                 pac_dni=input("DNI del Paciente a admitir: ")
-                paciente=pac.buscar_por_dni(pac_dni)
+                paciente = Paciente.buscar_por_dni(pac_dni)
                 if paciente is None:
                     print(f"Paciente con DNI {pac_dni} no encontrado. Registre nuevamente")
                     continue
