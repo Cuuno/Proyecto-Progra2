@@ -23,6 +23,7 @@ def mostrar_menu():
     print("--- Administración ---")
     print("10- Exportar Backup (CSV)")
     print("11- Restaurar Backup (CSV)")
+    print("12- Ver Todos los Pacientes Registrados")
     print("0- Salir")
 
 def main():
@@ -46,7 +47,7 @@ def main():
                 print ("ERROR: No se pudo registrar al paciente.")
             elif exito:
                 print(f"Paciente {pac.nombre} registado con exito.")
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '2':
             print("\n== 2. Admitir Paciente ==")
@@ -121,7 +122,7 @@ def main():
                     fecha_ingreso = datetime.date.today().isoformat()
                     print(f"Usando fecha actual: {fecha_ingreso}")
                 else:
-                    fecha_ingreso = fecha_ingreso
+                    fecha_ingreso = fecha_ingreso_input
 
                 #llamada a admision
                 print("Procesando admision...")
@@ -137,7 +138,7 @@ def main():
                     print("Paciente admitido exitosamente")
                 else:
                     print("No se pudo admitir, verifique datos ingresados")
-                opcion = input("\nPresione ENTER para continuar...")
+                input("\nPresione ENTER para continuar...")
 
             except (ValueError, IndexError):
                 print("Error: Escribio un numero incorrecto.")
@@ -159,7 +160,7 @@ def main():
                 print("\n--- Habitaciones Disponibles ---")
                 for hab in lista_habitaciones:
                     print(f"ID: {hab['hab_id']} | Nro: {hab['hab_nro']} | Piso: {hab['hab_piso']}")
-            opcion = input("Presione ENTER para continuar...")
+            input("Presione ENTER para continuar...")
 
         elif opcion == '4':
             print("\n== 4. Especialidades Disponibles ==")
@@ -172,7 +173,7 @@ def main():
                 print("\n--- Especialidades Encontradas ---")
                 for esp in lista_especialidades:
                     print(f"ID: {esp['esp_id']} | Nombre: {esp['esp_nombre']}")
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '5':
             print("\n== 5. Registrar Alta ==")
@@ -221,7 +222,7 @@ def main():
                     print("¡Alta registrada exitosamente!")
                 else:
                     print("Error: No se pudo registrar el alta.")
-                opcion = input("\nPresion ENTER para continuar...")
+                input("\nPresion ENTER para continuar...")
             
             except Exception as e:
                 print(f"Error inesperado: {e}")
@@ -242,7 +243,7 @@ def main():
                     print(f"  Fecha de Ingreso: {pac['adm_fecha_ingreso']}")
                     print(f"  (ID Admisión: {pac['adm_id']})")
                     print("-" * 20)
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '7':
             print("\n== 7. Historial Clínico por Paciente ==")
@@ -266,27 +267,45 @@ def main():
                     print(f"  Diagnóstico: {adm['diag_nostico']}")
                     print(f"  Médico: {medico}")
                     print("-" * 20)
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '8':
             print("\n== 8. Gráfico Promedio Días ==")
             reportes.generar_grafico_promedio_dias()
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
             
         elif opcion == '9':
             print("\n== 9. Gráfico Habitaciones ==")
             reportes.generar_grafico_estado_habitaciones()
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '10':
             print("\n== 10. Exportar Backup ==")          
             backups.exportar_csv()
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '11':
             print("\n== 11. Restaurar Backup ==")
             backups.importar_csv()
-            opcion = input("\nPresione ENTER para continuar...")
+            input("\nPresione ENTER para continuar...")
+        
+        elif opcion == '12':
+            print("\n== Ver Todos los Pacientes Registrados ==")
+            lista_pacientes = Paciente.obtener_pacientes()
+            
+            if lista_pacientes is None:
+                print("Error: No se pudo obtener la lista de pacientes.")
+            
+            elif not lista_pacientes: 
+                print("No hay pacientes registrados en el sistema.")
+            
+            else:
+                print("\n--- Lista de Pacientes ---")
+                
+                for pac in lista_pacientes:
+                    print(f"  ID: {pac['pac_id']} | DNI: {pac['pac_dni']} | Nombre: {pac['pac_nombre']} {pac['pac_apellido']}")  
+
+            input("\nPresione ENTER para continuar...")
 
         elif opcion == '0':
             print("\nSaliendo...")
@@ -294,7 +313,7 @@ def main():
 
         else:
             print("\nOpción no válida. Intente de nuevo.")
-
+            
 if __name__ == "__main__":
     main()
 

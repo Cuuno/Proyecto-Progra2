@@ -33,7 +33,17 @@ class Paciente(Persona):
             self.domicilio
         )
         return exito
+    
     @staticmethod
     def buscar_por_dni(pac_dni):
         return db.buscar_por_dni_db(pac_dni)
     
+    @staticmethod
+    def obtener_pacientes():
+        print("MODELO: Pidiendo lista completa de pacientes...")
+        try:
+            lista_pacientes = db.obtener_todos_los_pacientes_db()
+            return lista_pacientes
+        except Exception as e:
+            print(f"MODELO ERROR: Fallo inesperado al llamar a la capa de BD: {e}")
+            return None

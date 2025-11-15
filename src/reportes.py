@@ -20,8 +20,8 @@ def generar_grafico_promedio_dias():
         
         df.plot(
             kind='bar',
-            x='Diagnóstico',
-            y='Promedio_dias',
+            x='Diagnostico',
+            y='Promedio_Dias',
             title='Promedio de días de Internación por Diagnóstico',
             legend=False
         )

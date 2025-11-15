@@ -340,7 +340,7 @@ def obtener_datos_grafico_promedio_dias_db():
         conexion=db_conexion()
         if conexion is None:
             return None, None
-        sql="""
+        sql = """
         SELECT 
             d.diag_nostico AS Diagnostico, 
             AVG( JULIANDAY(a.adm_fecha_alta) - JULIANDAY(a.adm_fecha_ingreso) ) AS Promedio_Dias
@@ -368,6 +368,7 @@ def obtener_datos_grafico_promedio_dias_db():
 def obtener_datos_grafico_habitaciones_db():
     conexion=None
     try:
+        conexion=db_conexion()
         if conexion is None:
             return None, None
         
@@ -390,4 +391,28 @@ def obtener_datos_grafico_habitaciones_db():
         if conexion:
             conexion.close()
         return None, None
+
+# Construccion de la opcion 12
+def obtener_todos_los_pacientes_db():
+    conexion = None
+    try:
+        conexion = db_conexion() 
+        if conexion is None: 
+            return None 
         
+        cursor = conexion.cursor()
+        
+        sql = "SELECT pac_id, pac_dni, pac_nombre, pac_apellido FROM pacientes ORDER BY pac_apellido"
+        cursor.execute(sql)
+        
+        pacientes = cursor.fetchall()
+        
+        print(f"DB: Encontrados {len(pacientes)} pacientes en total.")
+        return pacientes
+
+    except sqlite3.Error as e:
+        print(f"DB ERROR en obtener todos los pacientes: {e}")
+        return None
+    finally:
+        if conexion:
+            conexion.close()        

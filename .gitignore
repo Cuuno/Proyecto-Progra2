@@ -226,3 +226,6 @@ __pycache__/
 
 # Ignorar la carpeta de backups generados
 backup_csv/
+
+# Ignorar los gráficos generados por Matplotlib
+*.png

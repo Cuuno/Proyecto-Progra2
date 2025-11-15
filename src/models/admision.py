@@ -43,7 +43,7 @@ class Admision ():
     def obtener_historial_paciente(dni):
         print (f"MODELO: Pidiendo historial de DNI {dni}...")
         try:
-            historial=db.obtener_historial_paciente_db()
+            historial=db.obtener_historial_paciente_db(dni)
             return historial
         except Exception as e:
             print (f"MODELO ERROR: Fallo inesperado al llamar a la BD: {e}")
