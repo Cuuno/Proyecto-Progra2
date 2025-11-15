@@ -1,8 +1,10 @@
 import sqlite3
+from src import utils
+DB_FILE_PATH = utils.resource_path("hospital.db")
 # Conexion con la base de datos
 def db_conexion():
     try:
-        conexion=sqlite3.connect('hospital.db')
+        conexion=sqlite3.connect(DB_FILE_PATH)
         conexion.row_factory=sqlite3.Row
         return conexion
     except sqlite3.Error as e:
