@@ -82,5 +82,80 @@ def crear_db():
         if conexion:
             conexion.close()
             print("Conexión cerrada.")
+
+def insertar_datos_de_prueba():
+    print("Insertando datos de prueba a la DB...")
+    try:
+        conexion=sqlite3.connect(db)#aqui puedo usar el string
+        cursor=conexion.cursor()
+        print("Conexión existosa. Insertando datos...")
+        # --- ESPECIALIDADES ---
+        especialidades = [
+            ('Cardiología',),
+            ('Traumatología',),
+            ('Clínica Médica',),
+            ('Nutrición',),
+            ('Proctología',),
+            ('Neurología',),
+            ('Endocrinología',)
+        ]
+       
+        cursor.executemany("INSERT OR IGNORE INTO especialidades (esp_nombre) VALUES (?)", especialidades)
+
+        # --- MEDICOS ---
+        medicos = [
+            ('Lionel', 'Messi', 3),
+            ('René', 'Favaloro', 1),
+            ('Julián', 'Alvarez', 2),
+            ('Dibu', 'Martinez', 2),
+            ('Juan','Pérez',7),
+            ('Elias','Tapia',6),
+            ('Analia','Torres',4),
+            ('Olivia','Paganeti',5)
+            ]
+        cursor.executemany("INSERT OR IGNORE INTO medicos (med_nombre, med_apellido, esp_id) VALUES (?, ?, ?)", medicos)
+
+        # --- HABITACIONES ---
+        habitaciones = [
+            # (id, nro, piso, disponibilidad: 1=Libre, 0=Ocupada)
+            (101, 1, 1),
+            (102, 1, 1),
+            (103, 1, 1),
+            (104, 1, 1),
+            (105, 1, 1),
+            (201, 2, 1),
+            (202, 2, 1),
+            (203, 2, 1),
+            (204, 1, 1),
+            (205, 1, 1),
+            (301, 3, 1),
+            (302, 3, 1),
+            (303, 3, 1),
+            (304, 1, 1),
+            (305, 1, 1),
+            (401, 4, 1),
+            (402, 4, 1),
+            (403, 4, 1),
+            (404, 1, 1),
+            (405, 1, 1)
+        ]
+        cursor.executemany("INSERT OR IGNORE INTO habitaciones (hab_nro, hab_piso, hab_disponibilidad) VALUES (?, ?, ?)", habitaciones)
+
+        # --- DIAGNÓSTICOS DE PRUEBA ---
+        diagnosticos = [
+            ('Gripe A',),
+            ('Quebradura de pie',),
+            ('Tuberculosis',)
+        ]
+        cursor.executemany("INSERT OR IGNORE INTO diagnosticos (diag_nostico) VALUES (?)", diagnosticos)
+
+        conexion.commit()
+        print("DB: Datos de prueba insertados exitosamente.")
+
+    except sqlite3.Error as e:
+        print(f"DB ERROR al insertar datos de prueba: {e}")
+        conexion.rollback() 
+
 if __name__ == "__main__":
     crear_db()
+    insertar_datos_de_prueba()

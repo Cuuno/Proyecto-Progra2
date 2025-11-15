@@ -11,7 +11,8 @@ class Paciente(Persona):
         print (f"Objeto Paciente '{self.nombre}'creado en memoria")
     def get_rol(self):
         return "Paciente" #defino el rol
-    def registrar(self,dni):
+    
+    def registrar(self):
         print (f"MODELO: Registrando a {self.nombre}")
         #validacion de DNI 
         try:
@@ -21,7 +22,7 @@ class Paciente(Persona):
         except Exception as e:
             print(f"MODELO ERROR: El DNI '{self.dni}' no es válido: {e}")
             return False
-        #
+
         exito = db.registrar_paciente_db(
             self.dni,
             self.nombre,
@@ -34,5 +35,5 @@ class Paciente(Persona):
         return exito
     @staticmethod
     def buscar_por_dni(pac_dni):
-        pass
+        return db.buscar_por_dni_db(pac_dni)
     

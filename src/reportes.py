@@ -9,14 +9,14 @@ def generar_grafico_promedio_dias():
     try:
         sql_query, conexion=db.obtener_datos_grafico_promedio_dias_db()
         if sql_query is None or conexion is None:
-            print ("ERROR: No se pudieron obtener los datos de la DB")
+            print ("REPORTES ERROR: No se pudieron obtener los datos de la DB")
             return
         df=pd.read_sql_query(sql_query, conexion)
 
         if df.empty:
             print ("REPORTES: No hay datos de admisiones cerradas para graficar")
             return
-        print("Reportes: Datos recibidos de la DB, generando grafico...")
+        print("REPORTES: Datos recibidos de la DB, generando grafico...")
         
         df.plot(
             kind='bar',
