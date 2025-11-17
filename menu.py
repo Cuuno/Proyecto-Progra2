@@ -47,14 +47,8 @@ def main():
                 print ("ERROR: No se pudo registrar al paciente.")
             elif exito:
                 print(f"Paciente {pac.nombre} registado con exito.")
-<<<<<<< HEAD
-            else:
-                print (f"Error: No se pudo registrar al paciene (DNI duplicado o error en BD)")
-            opcion=input("presione ENTER para continuar")
-
-=======
             input("\nPresione ENTER para continuar...")
->>>>>>> 6f3f76940edd45f8cb3eebd8a2e2cac012785537
+
 
         elif opcion == '2':
             print("\n== 2. Admitir Paciente ==")
