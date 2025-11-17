@@ -11,12 +11,9 @@ def db_conexion():
         print(f"Error al conectar con la base de daatos: {e}")
         return None
     
-<<<<<<< HEAD
-def registrar_paciente_db(dni,nombre,apellido,email,cel,domicilio,nacimiento):
-=======
+
 # Construcción de la opcion 1    
 def registrar_paciente_db(dni,nombre,apellido,nacimiento,email,cel,domicilio):
->>>>>>> 6f3f76940edd45f8cb3eebd8a2e2cac012785537
     conexion=None
     try:
         conexion=db_conexion()
@@ -25,11 +22,8 @@ def registrar_paciente_db(dni,nombre,apellido,nacimiento,email,cel,domicilio):
         cursor=conexion.cursor()
 
         sql = """
-<<<<<<< HEAD
-        INSERT INTO pacientes (pac_dni, pac_nombre, pac_apellido, pac_email, pac_cel, pac_domicilio, pac_nacimiento)
-=======
+
         INSERT INTO pacientes (pac_dni, pac_nombre, pac_apellido, pac_nacimiento, pac_email, pac_cel, pac_domicilio)
->>>>>>> 6f3f76940edd45f8cb3eebd8a2e2cac012785537
         VALUES (?, ?, ?, ?, ?, ?, ?)
         """
         cursor.execute(sql, (dni, nombre, apellido, nacimiento, email, cel, domicilio))
