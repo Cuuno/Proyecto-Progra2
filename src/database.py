@@ -7,7 +7,8 @@ def db_conexion():
     except sqlite3.Error as e:
         print(f"Error al conectar con la base de daatos: {e}")
         return None
-def registrar_paciente(dni,nombre,apellido,email,cel,domicilio,nacimiento):
+    
+def registrar_paciente_db(dni,nombre,apellido,email,cel,domicilio,nacimiento):
     conexion=None
     try:
         conexion=db_conexion()
@@ -16,7 +17,7 @@ def registrar_paciente(dni,nombre,apellido,email,cel,domicilio,nacimiento):
         cursor=conexion.cursor()
         #codigo de cristian=
         sql = """
-        INSERT INTO pacientes (pac_dni, pac_nombre, pac_apellido, pac_email, pac_cel, pac_domicilio, pac_fecha_nacimiento)
+        INSERT INTO pacientes (pac_dni, pac_nombre, pac_apellido, pac_email, pac_cel, pac_domicilio, pac_nacimiento)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         """
         cursor.execute(sql, (dni, nombre, apellido, email, cel, domicilio, nacimiento))
@@ -37,24 +38,6 @@ def registrar_paciente(dni,nombre,apellido,email,cel,domicilio,nacimiento):
     finally:
         if conexion:
             conexion.close()    
-        
-if __name__ == "_main_":
-    
-    print("--- Probando el registro de paciente ---")
-    exito = registrar_paciente(
-        "19", 
-        "juan", 
-        "castillo", 
-        "jcastillo@email.com", 
-        "38123993", 
-        "Av. Siempreviva 124",
-        "18/08/2005"
-    )
-    
-    if exito:
-        print("¡Paciente de prueba registrado con éxito!")
-    else:
-        print("Falló el registro del paciente de prueba (quizás ya existe).")
 
 def buscar_paciente_por_dni_db(dni):
     """

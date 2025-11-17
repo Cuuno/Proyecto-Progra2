@@ -11,7 +11,8 @@ class Paciente(Persona):
         print (f"Objeto Paciente '{self.nombre}'creado en memoria")
     def get_rol(self):
         return "Paciente" #defino el rol
-    def registrar(self,dni):
+    
+    def registrar(self):
         print (f"MODELO: Registrando a {self.nombre}")
         #validacion de DNI 
         try:

@@ -45,6 +45,7 @@ def main():
                 print(f"Paciente {pac.nombre} registado con exito.")
             else:
                 print (f"Error: No se pudo registrar al paciene (DNI duplicado o error en BD)")
+            opcion=input("presione ENTER para continuar")
 
 
         elif opcion == '2':
