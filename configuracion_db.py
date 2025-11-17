@@ -126,18 +126,18 @@ def insertar_datos_de_prueba():
             (201, 2, 1),
             (202, 2, 1),
             (203, 2, 1),
-            (204, 1, 1),
-            (205, 1, 1),
+            (204, 2, 1),
+            (205, 2, 1),
             (301, 3, 1),
             (302, 3, 1),
             (303, 3, 1),
-            (304, 1, 1),
-            (305, 1, 1),
+            (304, 3, 1),
+            (305, 3, 1),
             (401, 4, 1),
             (402, 4, 1),
             (403, 4, 1),
-            (404, 1, 1),
-            (405, 1, 1)
+            (404, 4, 1),
+            (405, 4, 1)
         ]
         cursor.executemany("INSERT OR IGNORE INTO habitaciones (hab_nro, hab_piso, hab_disponibilidad) VALUES (?, ?, ?)", habitaciones)
 
